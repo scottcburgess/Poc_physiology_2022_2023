@@ -121,8 +121,8 @@ m9 <- glmmTMB(Photosynthesis.nmol.cm2.min ~ Temperature + poly(Mean.Light,2) + S
 m10 <- glmmTMB(Photosynthesis.nmol.cm2.min ~ Temperature + poly(Mean.Light,2) + (1|Tank), data=y)
 m11 <- glmmTMB(Photosynthesis.nmol.cm2.min ~ Temperature + Species + (1|Tank), data=y)
 m12 <- glmmTMB(Photosynthesis.nmol.cm2.min ~ poly(Mean.Light,2) + Species + (1|Tank), data=y)
-anova(m9,m10, test="Chisq") # Species
 anova(m9,m11, test="Chisq") # Light
+anova(m9,m10, test="Chisq") # Species
 anova(m9,m12, test="Chisq") # Temperature
 emmeans(m10,pairwise~Temperature)
 confint(m10)

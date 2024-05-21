@@ -40,10 +40,13 @@ Analyze <- function(dat,x,y){
   dat$x <- dat[,names(dat)==x]
   dat$y <- dat[,names(dat)==y,]
   m1 <- glmmTMB(y ~ poly(x,2) + (1|Tank),data=dat)
-  m2 <- glmmTMB(y ~ 1 + (1|Tank), data=dat)
+  m2 <- glmmTMB(y ~ poly(x,1) + (1|Tank), data=dat)
+  m3 <- glmmTMB(y ~ 1 + (1|Tank), data=dat)
   aic_table <- aictab(list(m1=m1,m2=m2))
-  LLtest <- anova(m1,m2,test="Chisq")
-
+  LLtest1 <- anova(m1,m2,test="Chisq")
+  LLtest2 <- anova(m1,m3,test="Chisq")
+  LLtest3 <- anova(m2,m3,test="Chisq")
+  
   DHARMaOutput <- simulateResiduals(fittedModel = m1, plot = F)
   
   x.vec <- seq(min(dat$x),max(dat$x),length.out=100)
@@ -58,7 +61,9 @@ Analyze <- function(dat,x,y){
 
   list(pred=pred,
        DHARMaOutput=DHARMaOutput,
-       LLtest=LLtest,
+       LLtest1=LLtest1,
+       LLtest2=LLtest2,
+       LLtest3=LLtest3,
        aic_table=aic_table)
 }
 
@@ -165,7 +170,7 @@ axis(side=2,at=seq(0,3,0.5),las=1)
 mtext(side=1,expression(paste("Temperature ",degree*C)),line=2.5)
 mtext(side=2,expression(paste("Growth (mg ", cm^-2,d^-1,")")),adj=0.8,line=2.5)
 mtext(side=3,"a)",adj=0)
-pval<-round(growth_2023_temp_output$LLtest$'Pr(>Chisq)'[2],3)
+pval<-round(growth_2023_temp_output$LLtest2$'Pr(>Chisq)'[2],3)
 legend('bottomleft',eval(paste("p =",pval)),bty="n")
 # lo <- predict(loess(Growth.mg.cm2.d~Temperature,span=1,data=growth_2023_temp_mean))
 # with(growth_2023_temp_mean, lines(Temperature,lo, col='red', lwd=1.5))
@@ -185,10 +190,10 @@ Make.plot(dat=growth_2023_light_mean,
           xmin=120,xmax=1230,ymin=0,ymax=2.1)
 axis(side=1,at=light.vec)
 axis(side=2,at=seq(0,3,0.5),las=1)
-mtext(side=1,expression(paste("Light (",mu,"mol photons ", m^-2, s^-1)),line=2.5)
+mtext(side=1,expression(paste("Light (",mu,"mol photons ", m^-2, s^-1,")")),line=2.5)
 mtext(side=2,expression(paste("Growth (mg ", cm^-2,d^-1,")")),adj=0.8,line=2.5)
 mtext(side=3,"b)",adj=0)
-pval<-round(growth_2023_light_output$LLtest$'Pr(>Chisq)'[2],3)
+pval<-round(growth_2023_light_output$LLtest3$'Pr(>Chisq)'[2],3)
 legend('bottomleft',eval(paste("p =",pval)),bty="n")
 
 # Add.plot(dat=growth_2023_light_others_mean,
@@ -208,7 +213,7 @@ axis(side=2,at=seq(0,1,0.1),las=1)
 mtext(side=1,expression(paste("Temperature ",degree*C)),line=2.5)
 mtext(side=2,"Yield (Fv/Fm)",adj=0.8,line=2.5)
 mtext(side=3,"c)",adj=0)
-pval<-round(yield_2023_temp_output$LLtest$'Pr(>Chisq)'[2],3)
+pval<-round(yield_2023_temp_output$LLtest2$'Pr(>Chisq)'[2],3)
 legend('bottomleft',eval(paste("p =",pval)),bty="n")
 
 # Add.plot(dat=yield_2023_temp_others_mean,
@@ -226,12 +231,12 @@ Make.plot(dat=yield_2023_light_mean,
           xmin=120,xmax=1200,ymin=0.4,ymax=0.7)
 axis(side=1,at=light.vec)
 axis(side=2,at=seq(0,1,0.1),las=1)
-mtext(side=1,expression(paste("Light (",mu,"mol photons ", m^-2, s^-1)),line=2.5)
+mtext(side=1,expression(paste("Light (",mu,"mol photons ", m^-2, s^-1,")")),line=2.5)
 mtext(side=2,"Yield (Fv/Fm)",adj=0.8,line=2.5)
 mtext(side=3,"d)",adj=0)
-pval<-round(yield_2023_light_output$LLtest$'Pr(>Chisq)'[2],4)
+pval<-round(yield_2023_light_output$LLtest3$'Pr(>Chisq)'[2],4)
 pval<-format(pval,scientific=F)
-legend('bottomleft',eval(paste("p =",pval)),bty="n")
+legend('bottomleft',eval(paste("p <",pval)),bty="n")
 
 # Add.plot(dat=yield_2023_light_others_mean,
 #          x="Light",
