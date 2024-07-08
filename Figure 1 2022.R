@@ -1,8 +1,8 @@
-### This code produces Figure #, and associated analyses, in: 
-### Edmunds PJ, Burgess SC. TITLE HERE.
-# Code written by Scott Burgess, sburgess@bio.fsu.edu
-
-# R version 4.2.3 (2023-03-15) -- "Shortstop Beagle"
+### This code produces Figure 1, and associated analyses, in: 
+### Edmunds PJ, Burgess SC. Physiological niches of morphologically 
+### cryptic coral species (Pocillopora spp.) in Moorea, French Polynesia
+### Code written by Scott Burgess, sburgess@bio.fsu.edu
+### Code finalized July 2024
 
 # Load required libraries
 library('dplyr')
@@ -11,6 +11,15 @@ library('AICcmodavg')
 library('emmeans')
 library('car')
 library('DHARMa')
+
+# sessionInfo()
+# R version 4.4.0 (2024-04-24)
+# Platform: aarch64-apple-darwin20
+# Running under: macOS Sonoma 14.5
+# [1] DHARMa_0.4.6     car_3.1-2       
+# [3] carData_3.0-5    emmeans_1.10.2  
+# [5] AICcmodavg_2.3-3 glmmTMB_1.1.9   
+# [7] dplyr_1.1.4 
 
 # set the colors for plotting
 cols <- cbind.data.frame(Species = factor(c("P. tuahiniensis",
@@ -122,8 +131,8 @@ m10 <- glmmTMB(Photosynthesis.nmol.cm2.min ~ Temperature + poly(Mean.Light,2) + 
 m11 <- glmmTMB(Photosynthesis.nmol.cm2.min ~ Temperature + Species + (1|Tank), data=y)
 m12 <- glmmTMB(Photosynthesis.nmol.cm2.min ~ poly(Mean.Light,2) + Species + (1|Tank), data=y)
 anova(m9,m11, test="Chisq") # Light
-anova(m9,m10, test="Chisq") # Species
 anova(m9,m12, test="Chisq") # Temperature
+anova(m9,m10, test="Chisq") # Species
 emmeans(m10,pairwise~Temperature)
 confint(m10)
 

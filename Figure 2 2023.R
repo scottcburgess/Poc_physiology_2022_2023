@@ -1,8 +1,8 @@
-### This code produces Figure #, and associated analyses, in: 
-### Edmunds PJ, Burgess SC. TITLE HERE.
-# Code written by Scott Burgess, sburgess@bio.fsu.edu
-
-# R version 4.2.3 (2023-03-15) -- "Shortstop Beagle"
+### This code produces Figure 2, and associated analyses, in: 
+### Edmunds PJ, Burgess SC. Physiological niches of morphologically 
+### cryptic coral species (Pocillopora spp.) in Moorea, French Polynesia
+### Code written by Scott Burgess, sburgess@bio.fsu.edu
+### Code finalized July 2024
 
 # Load required libraries
 
@@ -11,6 +11,12 @@ library('glmmTMB')
 library('AICcmodavg')
 library('DHARMa')
 
+# sessionInfo()
+# R version 4.4.0 (2024-04-24)
+# Platform: aarch64-apple-darwin20
+# Running under: macOS Sonoma 14.5
+# [1] DHARMa_0.4.6     AICcmodavg_2.3-3
+# [3] glmmTMB_1.1.9    dplyr_1.1.4   
 
 # set the colors for plotting
 cols <- cbind.data.frame(Species = factor(c("P. tuahiniensis",
