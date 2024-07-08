@@ -47,14 +47,6 @@ dat_2022 %>%
   summarise(n=n()) %>% 
   mutate(freq=n/sum(n))
 
-tmp <- read.csv("/Users/scottburgess/My Drive/Data/Corals/Pocillipora/2022 Pm vs hap 10 experiment/2022 Pm vs hap 10 experiment Species ID.csv")
-nrow(tmp)
-tmp %>% 
-  group_by(Species) %>% 
-  summarise(n=n()) %>% 
-  mutate(freq=n/sum(n))
-
-
 # Function to compare models using AICc for the 2022 data
 Analyze2022 <- function(dat,yname){
   dat$yvar <- dat[,names(dat)==yname,]
